@@ -1,0 +1,87 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Deploy Logic App/Connnectors resources and build and push workflows. 
+
+on:
+  - push 
+  - workflow_dispatch 
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: '3.1.301'    # set this to the dotnet version to use
+  RG_LA: 'CICDDemoFresh'
+  RG_CON: 'ARMLaDemoFresh'
+
+jobs:
+   build-and-deploy-arm: 
+    runs-on: ubuntu-latest
+    steps:
+                      
+    # Authentication
+    # Set up the following secrets in your repository: AZURE_CREDENTIALS
+    # For details on usage of secrets, please refer https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS  }}
+    
+    # Checkout
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    # Deployment of template  
+
+    - name: Deploy Logic App Resources
+      uses: Azure/arm-deploy@v1.0.1
+      id: ladeploy
+      with:
+        # You can change these environment variables for your configuration:   AZURE_SUBSCRIPTION_ID, AZURE_RESOURCE_GROUP
+        scope: resourcegroup  
+        subscriptionId: ${{ secrets.subscriptionid }}
+        resourceGroupName:  ${{ env.RG_LA }}
+        template: ARM/la-template.json  # Set this to the location of your template file
+        parameters: ARM/la-parameters.json # Set this to the location of your parameters file
+        deploymentMode: Complete
+
+   
+    # Deployment of template    
+    - name: Deploy Connector Resources 
+      id: msdemoconn
+      uses: Azure/arm-deploy@v1.0.1
+      with:
+        scope: resourcegroup  
+        subscriptionId: ${{ secrets.subscriptionid }}
+        resourceGroupName: ${{ env.RG_CON }}
+        template: ARM/template.json  # Set this to the location of your template file
+        parameters: ARM/parameters.json logicAppSystemAssignedIdentityTenantId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityTenantId }} logicAppSystemAssignedIdentityObjectId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityObjectId }}
+        deploymentMode: Incremental
+
+    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: 'Resolve Project Dependencies Using Dotnet'
+      shell: pwsh
+      run: |
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        dotnet build --configuration Release --output ./output
+        popd
+
+    #you will need to dynamically script this for multiple connectors, this is hard coded for now.  
+    - name: Find and Replace TenantID
+      uses: jacobtomlinson/gha-find-replace@master
+      with:
+        find: "https://2126d86fd4d6d971.17.common.logic-australiasoutheast.azure-apihub.net/apim/azureblob/b890b1722d40446fa004f064a464a6b4/"
+        replace: ${{ steps.msdemoconn.outputs.azureBlobConnectionRuntimeUrl }}
+
+#todo update slot-name dynamically
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: 'cicdlogicapp'
+        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_d2f50a8351394fd7bebe14c5aff28c1a }}
+  
