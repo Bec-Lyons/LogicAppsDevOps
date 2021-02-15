@@ -109,13 +109,15 @@ BEFORE YOU RUN:
 1. Add Azure credentials to Secrets 
     1. Create a Service Principal for your Azure subscription following [this guide](https://github.com/marketplace/actions/azure-login#configure-deployment-credentials). 
     - The output of the `az ad sp create-for-rbac --name "{sp-name}" --sdk-auth...` command should look like this: 
-    > {
-    >   "clientId": "<GUID>",
-    >   "clientSecret": "<GUID>",
-    >   "subscriptionId": "<GUID>",
-    >   "tenantId": "<GUID>",
-    >   (...)
-    > }
+     ```json
+    {
+       "clientId": "<GUID>",
+       "clientSecret": "<GUID>",
+       "subscriptionId": "<GUID>",
+       "tenantId": "<GUID>",
+       (...)
+    }
+    ```
     1. Save the output of the above command to [GitHub Secrets](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository) and call the secret `AZURE_CREDENTIALS`: 
     1. You also need to create a secret `AZURE_SUB` with the subscription ID of the subscription you want to deploy to. Subscription IDs can be found using the `az account list -o table` command.
 
