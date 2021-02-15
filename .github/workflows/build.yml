@@ -3,6 +3,11 @@
 
 name: Build and Zip Logic App. 
 
+env:
+  AZURE_LOGICAPP_PACKAGE_PATH: '.'
+  DOTNET_VERSION: '3.1.301'    # set this to the dotnet version to use
+  RG_LA: 'ARMLaDemo'
+
 on:
   - push 
   - workflow_dispatch 
@@ -26,8 +31,36 @@ jobs:
       with:
         inlineScript: |
           Set-AzContext -Subscription ${{secrets.AZURE_SUB}}
-          ./Scripts/Generate-Connections.ps1 -resourceGroup 'ARMLaDemo'
+          ./Scripts/Generate-Connections.ps1 -resourceGroup '${{ env.RG_LA }}'
         azPSVersion: latest
 
+    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+          uses: actions/setup-dotnet@v1
+          with:
+            dotnet-version: ${{ env.DOTNET_VERSION }}
+          
+    - name: 'Resolve Project Dependencies Using Dotnet'
+      shell: pwsh
+      run: |
+        pushd './${{ env.AZURE_LOGICAPP_PACKAGE_PATH }}'
+        dotnet build --configuration Release --output ./output
+        popd
 
-      
+    - name: Get publish Profile
+        id: fncapp
+        shell: pwsh
+        run: |
+          $profile = Get-AzWebAppPublishingProfile `
+              -ResourceGroupName $\{\{ env.RG_LA \}\} `
+              -Name $\{\{ secrets.LOGIC_APP_NAME \}\}
+          $profile = $profile.Replace("`r", "").Replace("`n", "")
+          Write-Output "::set-output name=profile::$profile"
+
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: 'cicdlogicapp'
+        package: '${{ env.AZURE_LOGICAPP_PACKAGE_PATH }}/output'
+        publish-profile: steps.fncapp.outputs.profile
+
