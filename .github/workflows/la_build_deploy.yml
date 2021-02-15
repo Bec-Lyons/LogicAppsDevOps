@@ -9,7 +9,6 @@ env:
   RG_LA: 'ARMLaDemo'
 
 on:
-  - push 
   - workflow_dispatch 
 
 jobs:
