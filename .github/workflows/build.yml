@@ -14,5 +14,9 @@ jobs:
     - name: Generate Connections
       shell: pwsh
       run: |
-        Scripts/Generate-Connections.ps1
+        Scripts\Generate-Connections.ps1
+
+
+        
+
       
