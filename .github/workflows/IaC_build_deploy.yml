@@ -7,7 +7,7 @@ on:
   - workflow_dispatch 
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  AZURE_LOGICAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '3.1.301'    # set this to the dotnet version to use
   RG_LA: 'GHApp'
   RG_CON: 'GHConnections'
@@ -94,9 +94,5 @@ jobs:
         app-name: ${{ steps.ladeploy.outputs.LAname }}
         package: '${{ env.AZURE_LOGICAPP_PACKAGE_PATH }}/output'
         publish-profile: ${{steps.fncapp.outputs.profile}}
-    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-
+   
    
