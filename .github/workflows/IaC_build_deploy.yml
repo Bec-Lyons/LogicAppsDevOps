@@ -57,7 +57,7 @@ jobs:
         deploymentMode: Incremental
       
   logic_app_build: 
-    needs: first
+    needs: deploy-infra
     runs-on: ubuntu-latest
     steps: 
 
