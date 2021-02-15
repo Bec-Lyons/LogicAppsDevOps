@@ -30,7 +30,6 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          Set-AzContext -Subscription ${{secrets.AZURE_SUB}}
           ./Scripts/Generate-Connections.ps1 -resourceGroup '${{ env.RG_LA }}'
         azPSVersion: latest
 

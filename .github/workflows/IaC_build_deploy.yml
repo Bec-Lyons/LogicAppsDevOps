@@ -9,11 +9,11 @@ on:
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '3.1.301'    # set this to the dotnet version to use
-  RG_LA: 'CICDDemoFresh'
-  RG_CON: 'ARMLaDemoFresh'
+  RG_LA: 'GHApp'
+  RG_CON: 'GHConnections'
 
 jobs:
-   build-and-deploy-arm: 
+  deploy-infra: 
     runs-on: ubuntu-latest
     steps:
                       
@@ -55,32 +55,62 @@ jobs:
         template: ARM/template.json  # Set this to the location of your template file
         parameters: ARM/parameters.json logicAppSystemAssignedIdentityTenantId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityTenantId }} logicAppSystemAssignedIdentityObjectId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityObjectId }}
         deploymentMode: Incremental
+      
+  deploy-infra: 
+    needs: first
+    runs-on: ubuntu-latest
+    steps: 
+
+    - name: Checkout
+      uses: actions/checkout@v1
+    
+    - name: Login via Az module
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true 
+
+    - name: Generate Connections
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          ./Scripts/Generate-Connections.ps1 -resourceGroup '${{ env.RG_LA }}'
+        azPSVersion: latest
+
+    - name: Get publish Profile
+      id: fncapp
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          $profile = Get-AzWebAppPublishingProfile `
+              -ResourceGroupName ${{ env.RG_LA }} `
+              -Name ${{ secrets.LOGIC_APP_NAME }}
+          $profile = $profile.Replace("`r", "").Replace("`n", "")
+          Write-Output "::set-output name=profile::$profile"
+        azPSVersion: latest
 
     - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-
+          
     - name: 'Resolve Project Dependencies Using Dotnet'
       shell: pwsh
       run: |
-        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        pushd './${{ env.AZURE_LOGICAPP_PACKAGE_PATH }}'
         dotnet build --configuration Release --output ./output
         popd
 
-    #you will need to dynamically script this for multiple connectors, this is hard coded for now.  
-    - name: Find and Replace TenantID
-      uses: jacobtomlinson/gha-find-replace@master
-      with:
-        find: "https://2126d86fd4d6d971.17.common.logic-australiasoutheast.azure-apihub.net/apim/azureblob/b890b1722d40446fa004f064a464a6b4/"
-        replace: ${{ steps.msdemoconn.outputs.azureBlobConnectionRuntimeUrl }}
-
-#todo update slot-name dynamically
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
       id: fa
       with:
-        app-name: 'cicdlogicapp'
-        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_d2f50a8351394fd7bebe14c5aff28c1a }}
-  
+        app-name: ${{secrets.LOGIC_APP_NAME}}
+        package: '${{ env.AZURE_LOGICAPP_PACKAGE_PATH }}/output'
+        publish-profile: ${{steps.fncapp.outputs.profile}}
+    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+   
