@@ -25,9 +25,10 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          Connect-AzAccount
+          Connect-AzAccount -UseDeviceAuthentication
           Set-AzContext -Subscription ${{secrets.AZURE_SUB}}
           ./Scripts/Generate-Connections.ps1 -resourceGroup 'ARMLaDemo'
         azPSVersion: latest
+
 
       
