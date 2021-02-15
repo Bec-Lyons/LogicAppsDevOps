@@ -1,0 +1,26 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Deploy Logic App/Connnectors resources and build and push workflows. 
+
+on:
+  - push 
+  - workflow_dispatch 
+
+env:
+
+jobs:
+   logic_app_build: 
+    runs-on: ubuntu-latest
+    steps: 
+    - task: AzurePowerShell@4
+      displayName: 'Generate connections.json file'
+      inputs:
+        azureSubscription: $(devServiceConnection)
+        ScriptType: 'FilePath'
+        ScriptPath: '$(workingDirectory)/.pipelines/scripts/Generate-Connections.ps1'
+        FailOnStandardError: true
+        azurePowerShellVersion: LatestVersion
+        pwsh: true
+        ScriptArguments: >-
+          -resourceGroup $(resourceGroupName)
