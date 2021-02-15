@@ -34,17 +34,26 @@ jobs:
           ./Scripts/Generate-Connections.ps1 -resourceGroup '${{ env.RG_LA }}'
         azPSVersion: latest
 
-    - name: Get publish Profile
+    - name: Get WebApp/FunctionApp publish profile
       id: fncapp
-      uses: azure/powershell@v1
+      uses: aliencube/publish-profile-actions@v1
+      env:
+        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
       with:
-        inlineScript: |
-          $profile = Get-AzWebAppPublishingProfile `
-              -ResourceGroupName ${{ env.RG_LA }} `
-              -Name ${{ secrets.LOGIC_APP_NAME }}
-          $profile = $profile.Replace("`r", "").Replace("`n", "")
-          Write-Output "::set-output name=profile::$profile"
-        azPSVersion: latest
+        resourceGroupName: '${{ env.RG_LA }}'
+        appName: '${{ secrets.LOGIC_APP_NAME }}'
+        
+   # - name: Get publish Profile
+   #   id: fncapp
+  #  uses: azure/powershell@v1
+   #   with:
+    #    inlineScript: |
+     #     $profile = Get-AzWebAppPublishingProfile `
+      #        -ResourceGroupName ${{ env.RG_LA }} `
+       #       -Name ${{ secrets.LOGIC_APP_NAME }}
+      #    $profile = $profile.Replace("`r", "").Replace("`n", "")
+      #    Write-Output "::set-output name=profile::$profile"
+      #  azPSVersion: latest
 
     - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
       uses: actions/setup-dotnet@v1
