@@ -23,8 +23,9 @@ jobs:
 
     - name: Generate Connections
       uses: azure/powershell@v1
-      inlineScript: |
-        ./Scripts/Generate-Connections.ps1 -resourceGroup 'ARMLaDemo'
+      with:
+        inlineScript: |
+          ./Scripts/Generate-Connections.ps1 -resourceGroup 'ARMLaDemo'
     
 
       
