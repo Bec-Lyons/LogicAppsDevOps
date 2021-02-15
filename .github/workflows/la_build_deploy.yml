@@ -6,7 +6,8 @@ name: Build and Zip Logic App.
 env:
   AZURE_LOGICAPP_PACKAGE_PATH: '.'
   DOTNET_VERSION: '3.1.301'    # set this to the dotnet version to use
-  RG_LA: 'ARMLaDemo'
+  RG_LA: 'GHApp'
+  RG_CON: 'GHConnections'
 
 on:
   - workflow_dispatch 
@@ -29,7 +30,7 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          ./Scripts/Generate-Connections.ps1 -resourceGroup '${{ env.RG_LA }}'
+          ./Scripts/Generate-Connections.ps1 -resourceGroup '${{ env.RG_CON }}'
         azPSVersion: latest
 
     - name: Get publish Profile
