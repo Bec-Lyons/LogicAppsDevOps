@@ -105,6 +105,29 @@ If you provided the workflow variables mentioned above, the Logic App should con
 
 You can view a sample of this project's GitHub Actions in .github/workflows. 
 
+BEFORE YOU RUN:
+1. Add Azure credentials to Secrets 
+    1. Create a Service Principal for your Azure subscription following [this guide](https://github.com/marketplace/actions/azure-login#configure-deployment-credentials). 
+    - The output of the `az ad sp create-for-rbac --name "{sp-name}" --sdk-auth...` command should look like this: 
+    > {
+    >   "clientId": "<GUID>",
+    >   "clientSecret": "<GUID>",
+    >   "subscriptionId": "<GUID>",
+    >   "tenantId": "<GUID>",
+    >   (...)
+    > }
+    1. Save the output of the above command to [GitHub Secrets](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository) and call the secret `AZURE_CREDENTIALS`: 
+    1. You also need to create a secret `AZURE_SUB` with the subscription ID of the subscription you want to deploy to. Subscription IDs can be found using the `az account list -o table` command.
+
+2. Add environment variables to your pipeline  
+	- LA_RG (name of the resource group where your logic Apps will be deployed) 
+	- LA_CON (Name of the resource group where your Connections will be deployed)
+  
+> #### Note on separate resource groups for Logic Apps + Connections 
+>
+> - You do not have to have connections and logic apps in separate resource groups. The benefit of separating them out is that if you have a lot of manual sign on based connectors such as Office365, Salesforce, etc. then separation means you can separate these out into different DevOps pipelines with their own separate cadence. This means you would not have to reauthenticate on every infrastructure deployment. 
+
+
 ### ARM Deployment
 
 The `ARM` folder contains the ARM templates required to deploy all the required logic app resources.
@@ -144,8 +167,9 @@ A pipeline that doth both build and deploy actions to build the Logic Apps proje
   - builds the logic app and generates the connections.json file 
   - deploys to the logic app resource just created via ARM
 
-
-NOTE: These are two example pipelines that are relatively condensed, however you are free to separate these out into separate pipelines as suits your DevOps process. (for example, separate pipelines for build, release, infra deployments etc.). 
+> #### Note:
+> 
+> These are two example pipelines that are relatively condensed, however you are free to separate these out into separate pipelines as suits your DevOps process. (for example, separate pipelines for build, release, infra deployments etc.). 
 
 ## Known Issues & Limitations
 
@@ -180,10 +204,7 @@ With Logic App v2 being in preview, there are some caveats to be aware of.
 
 - [Azurite](https://github.com/Azure/Azurite) is not yet supported.
 
-- There is currently a bug where generating a new `connections.json` file will update `.csproj` with another entry for the connections file, feel free to delete this new reference - you
-  do not need to reference the connections file more than once.
-
-- There is currently a bug where you cannot view Azure operations in the designer when using a stateless workflow
+- There is currently a bug where generating a new `connections.json` file will update `.csproj` with another entry for the connections file, feel free to delete this new reference - you do not need to reference the connections file more than once.
 
 - Authentication is not yet supported using the built-in HTTP operation
 
