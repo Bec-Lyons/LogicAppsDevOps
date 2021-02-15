@@ -56,7 +56,7 @@ jobs:
         parameters: ARM/parameters.json logicAppSystemAssignedIdentityTenantId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityTenantId }} logicAppSystemAssignedIdentityObjectId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityObjectId }}
         deploymentMode: Incremental
       
-  deploy-infra: 
+  logic_app_build: 
     needs: first
     runs-on: ubuntu-latest
     steps: 
@@ -74,7 +74,7 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          ./Scripts/Generate-Connections.ps1 -resourceGroup '${{ env.RG_LA }}'
+          ./Scripts/Generate-Connections.ps1 -resourceGroup '${{ env.RG_CON }}'
         azPSVersion: latest
 
     - name: Get publish Profile
