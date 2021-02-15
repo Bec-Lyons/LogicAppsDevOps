@@ -13,5 +13,5 @@ jobs:
     steps: 
     - name: Generate Connections
       shell: powershell
-      run: .\scripts\Generate-Connections.ps1
+      run: Scripts/Generate-Connections.ps1
       
