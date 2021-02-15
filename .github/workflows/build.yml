@@ -13,10 +13,6 @@ jobs:
     steps: 
     - name: Generate Connections
       shell: pwsh
-      run: |
-        Scripts\Generate-Connections.ps1
+      run: echo "hi"
 
 
-        
-
-      
