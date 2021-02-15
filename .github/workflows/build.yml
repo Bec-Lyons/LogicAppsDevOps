@@ -26,6 +26,6 @@ jobs:
       with:
         inlineScript: |
           ./Scripts/Generate-Connections.ps1 -resourceGroup 'ARMLaDemo'
-    
+        azPSVersion: '3.1.0'
 
       
