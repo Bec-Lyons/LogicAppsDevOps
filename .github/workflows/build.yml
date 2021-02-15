@@ -7,8 +7,6 @@ on:
   - push 
   - workflow_dispatch 
 
-env:
-
 jobs:
    logic_app_build: 
     runs-on: ubuntu-latest
