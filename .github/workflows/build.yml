@@ -48,19 +48,21 @@ jobs:
 
     - name: Get publish Profile
       id: fncapp
-      shell: pwsh
-      run: |
-        $profile = Get-AzWebAppPublishingProfile `
-            -ResourceGroupName $\{\{ env.RG_LA \}\} `
-            -Name $\{\{ secrets.LOGIC_APP_NAME \}\}
-        $profile = $profile.Replace("`r", "").Replace("`n", "")
-        Write-Output "::set-output name=profile::$profile"
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          $profile = Get-AzWebAppPublishingProfile `
+              -ResourceGroupName $\{\{ env.RG_LA \}\} `
+              -Name $\{\{ secrets.LOGIC_APP_NAME \}\}
+          $profile = $profile.Replace("`r", "").Replace("`n", "")
+          Write-Output "::set-output name=profile::$profile"
+        azPSVersion: latest
 
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
       id: fa
       with:
-        app-name: 'cicdlogicapp'
+        app-name: ${{secrets.LOGIC_APP_NAME}}
         package: '${{ env.AZURE_LOGICAPP_PACKAGE_PATH }}/output'
         publish-profile: steps.fncapp.outputs.profile
 
