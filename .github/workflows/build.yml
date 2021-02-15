@@ -19,13 +19,12 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
-
+        enable-AzPSSession: true 
 
     - name: Generate Connections
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          Connect-AzAccount -UseDeviceAuthentication
           Set-AzContext -Subscription ${{secrets.AZURE_SUB}}
           ./Scripts/Generate-Connections.ps1 -resourceGroup 'ARMLaDemo'
         azPSVersion: latest
