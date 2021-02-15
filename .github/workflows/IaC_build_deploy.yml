@@ -24,7 +24,8 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS  }}
-    
+        enable-AzPSSession: true 
+        
     # Checkout
     - name: Checkout
       uses: actions/checkout@v1
@@ -60,15 +61,6 @@ jobs:
     needs: deploy-infra
     runs-on: ubuntu-latest
     steps: 
-
-    - name: Checkout
-      uses: actions/checkout@v1
-    
-    - name: Login via Az module
-      uses: azure/login@v1
-      with:
-        creds: ${{secrets.AZURE_CREDENTIALS}}
-        enable-AzPSSession: true 
 
     - name: Generate Connections
       uses: azure/powershell@v1
