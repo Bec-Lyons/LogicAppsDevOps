@@ -16,8 +16,9 @@ jobs:
     - name: Generate Connections
       uses: azure/powershell@v1
       shell: pwsh
-      run: |
-        ./Scripts/Generate-Connections.ps1 -resourceGroup 'ARMLaDemo'
+      with: 
+        ScriptType: 'FilePath'
+        ScriptPath: ./Scripts/Generate-Connections.ps1 -resourceGroup 'ARMLaDemo'
     
 
       
