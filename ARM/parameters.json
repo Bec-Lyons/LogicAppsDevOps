@@ -8,9 +8,6 @@
         "logicAppSystemAssignedIdentityObjectId": {
             "value": "__2__"
         },
-        "connections_sql_name": {
-            "value": "sql"
-        },
         "sa_name": {
             "value": "consa"
         },

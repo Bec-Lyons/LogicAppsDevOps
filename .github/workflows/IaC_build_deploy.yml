@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Deploy Logic App/Connnectors resources and build and push workflows. 
+name: Logic App IaC, Build and deploy. 
 
 on:
   - workflow_dispatch 
@@ -24,8 +24,7 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS  }}
-        enable-AzPSSession: true 
-        
+
     # Checkout
     - name: Checkout
       uses: actions/checkout@v1
@@ -42,7 +41,7 @@ jobs:
         resourceGroupName:  ${{ env.RG_LA }}
         template: ARM/la-template.json  # Set this to the location of your template file
         parameters: ARM/la-parameters.json # Set this to the location of your parameters file
-        deploymentMode: Complete
+        deploymentMode: Incremental
 
    
     # Deployment of template    
@@ -61,6 +60,14 @@ jobs:
     needs: deploy-infra
     runs-on: ubuntu-latest
     steps: 
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS  }}
+        enable-AzPSSession: true 
+
+    - name: Checkout
+      uses: actions/checkout@v1
 
     - name: Generate Connections
       uses: azure/powershell@v1
