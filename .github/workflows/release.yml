@@ -4,7 +4,6 @@
 name: Deploy Logic App/Connnectors resources and build and push workflows. 
 
 on:
-  - push 
   - workflow_dispatch 
 
 env:
