@@ -13,14 +13,8 @@ jobs:
    logic_app_build: 
     runs-on: ubuntu-latest
     steps: 
-    - name: 'Generate connections.json file'
-      uses: AzurePowerShell@4
-      with:
-        azureSubscription: $(devServiceConnection)
-        ScriptType: 'FilePath'
-        ScriptPath: '$(workingDirectory)/.pipelines/scripts/Generate-Connections.ps1'
-        FailOnStandardError: true
-        azurePowerShellVersion: LatestVersion
-        pwsh: true
-        ScriptArguments: >-
-          -resourceGroup $(resourceGroupName)
+    - name: Generate Connections
+      shell: pwsh
+      run: |
+        Scripts/Generate-Connections.ps1
+      
