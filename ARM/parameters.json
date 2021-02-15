@@ -16,38 +16,6 @@
         },
         "connections_azureblob_2_name": {
             "value":"azureblob-2"
-        },
-        "sqlserver": {
-            "reference": {
-                "keyVault": {
-                "id": "/subscriptions/80b60a27-4eab-437e-899f-dde369cd1c17/resourceGroups/LAPreviewDemo/providers/Microsoft.KeyVault/vaults/keyvaultbly2"
-                },
-                "secretName": "server"
-            }
-        }, 
-        "sqldbname": {
-            "reference": {
-                "keyVault": {
-                "id": "/subscriptions/80b60a27-4eab-437e-899f-dde369cd1c17/resourceGroups/LAPreviewDemo/providers/Microsoft.KeyVault/vaults/keyvaultbly2"
-                },
-                "secretName": "Database"
-            }
-        }, 
-        "sqluser": {
-            "reference": {
-                "keyVault": {
-                "id": "/subscriptions/80b60a27-4eab-437e-899f-dde369cd1c17/resourceGroups/LAPreviewDemo/providers/Microsoft.KeyVault/vaults/keyvaultbly2"
-                },
-                "secretName": "username"
-            }
-        }, 
-        "sqlpass": {
-            "reference": {
-                "keyVault": {
-                "id": "/subscriptions/80b60a27-4eab-437e-899f-dde369cd1c17/resourceGroups/LAPreviewDemo/providers/Microsoft.KeyVault/vaults/keyvaultbly2"
-                },
-                "secretName": "Password"
-            }
         }
     }
 }
