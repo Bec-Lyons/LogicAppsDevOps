@@ -11,11 +11,18 @@ jobs:
    logic_app_build: 
     runs-on: ubuntu-latest
     steps: 
+
     - name: Checkout
       uses: actions/checkout@v1
+    
+    - name: Login via Az module
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true 
+
     - name: Generate Connections
       uses: azure/powershell@v1
-      shell: pwsh
       with: 
         ScriptType: 'FilePath'
         ScriptPath: ./Scripts/Generate-Connections.ps1 -resourceGroup 'ARMLaDemo'
