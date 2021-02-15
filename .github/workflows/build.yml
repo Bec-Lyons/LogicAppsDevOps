@@ -15,14 +15,6 @@ jobs:
       shell: pwsh
       run: |
         .\Scripts\Generate-Connections.ps1
-    - name: Save output
-      steps:
-        - name: Upload output file
-          uses: actions/upload-artifact@v1
-          with:
-            name: output-log-file
-            path: output.log
-
-        
+    
 
       
