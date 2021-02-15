@@ -42,7 +42,6 @@ jobs:
           $profile = Get-AzWebAppPublishingProfile `
               -ResourceGroupName ${{ env.RG_LA }} `
               -Name ${{ secrets.LOGIC_APP_NAME }}
-     #    $profile = $profile.Replace("`r", "").Replace("`n", "")
           Write-Output "::set-output name=profile::$profile"
         azPSVersion: latest
 
