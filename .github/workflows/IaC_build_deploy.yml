@@ -13,7 +13,7 @@ env:
   RG_CON: 'GHConnections'
 
 jobs:
-  deploy-infra: 
+  deploy-all: 
     runs-on: ubuntu-latest
     steps:
                       
@@ -24,6 +24,7 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS  }}
+        azPSVersion: latest
 
     # Checkout
     - name: Checkout
@@ -42,7 +43,6 @@ jobs:
         template: ARM/la-template.json  # Set this to the location of your template file
         parameters: ARM/la-parameters.json # Set this to the location of your parameters file
         deploymentMode: Incremental
-
    
     # Deployment of template    
     - name: Deploy Connector Resources 
@@ -55,21 +55,8 @@ jobs:
         template: ARM/template.json  # Set this to the location of your template file
         parameters: ARM/parameters.json logicAppSystemAssignedIdentityTenantId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityTenantId }} logicAppSystemAssignedIdentityObjectId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityObjectId }}
         deploymentMode: Incremental
-      
-  logic_app_build: 
-    needs: deploy-infra
-    runs-on: ubuntu-latest
-    steps: 
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS  }}
-        enable-AzPSSession: true 
 
-    - name: Checkout
-      uses: actions/checkout@v1
-
-    - name: Generate Connections
+    - name: Generate Connections.json
       uses: azure/powershell@v1
       with:
         inlineScript: |
