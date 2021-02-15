@@ -20,11 +20,11 @@ jobs:
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
 
+
     - name: Generate Connections
       uses: azure/powershell@v1
-      with: 
-        ScriptType: 'FilePath'
-        ScriptPath: ./Scripts/Generate-Connections.ps1 -resourceGroup 'ARMLaDemo'
+      inlineScript: |
+        ./Scripts/Generate-Connections.ps1 -resourceGroup 'ARMLaDemo'
     
 
       
