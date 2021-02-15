@@ -1,24 +1,19 @@
 # Logic Apps (preview) DevOps 
 
-This repository contains a sample Logic App (preview) project, with Azure deployment and GitHub Actions examples.
+This repository contains a sample Logic App (preview) project, with Azure deployment and GitHub Actions examples. For a sample on how to create DevOps pipeline for Logic Apps with Azure DevOps please see [here](https://github.com/Azure/logicapps/tree/master/templates/devops-sample)
 
 - [Logic Apps (Preview)](#logic-apps-preview)
   - [Prerequisites](#prerequisites)
   - [Local](#local)
     - [VS Code](#vs-code)
-    - [Docker](#docker)
     - [API Connections](#api-connections)
       - [Recreate the operation using the connection](#recreate-the-operation-using-the-connection)
       - [Create a new workflow just for connections](#create-a-new-workflow-just-for-connections)
   - [DevOps](#devops)
     - [ARM Deployment](#arm-deployment)
-    - [Azure Pipelines](#azure-pipelines)
-      - [IaC Pipeline](#iac-pipeline)
-      - [PR Pipeline](#pr-pipeline)
-      - [CI Pipeline](#ci-pipeline)
-      - [CD Pipeline](#cd-pipeline)
-    - [Pipeline Variables](#pipeline-variables)
-      - [Variable Files](#variable-files)
+    - [GitHub Actions](#github-actions)
+      - [Application Pipeline](#application-pipeline)
+      - [IaC Pipeline](#IaC-pipeline)
   - [Known Issues & Limitations](#known-issues--limitations)
     - [Q & A](#q--a)
 
@@ -124,7 +119,7 @@ The `ARM` folder contains the ARM templates required to deploy all the required 
 
 The `.github` folder contains examples of how to deploy the logic app, both separately and with it's infrastructure.
 
-#### Logic Apps 'application' Pipeline
+#### Application Pipeline
 
 A pipeline that doth both build and deploy actions to build the Logic Apps project and deploy to a pre-existing Logic App. This is a demonstration of separation of concerns whereby your logic app application is deployed independently of the underlying infrastructure which can be handled in a separate pipeline with it's own cadences. 
 
