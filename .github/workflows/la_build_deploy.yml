@@ -42,6 +42,7 @@ jobs:
           $profile = Get-AzWebAppPublishingProfile `
               -ResourceGroupName ${{ env.RG_LA }} `
               -Name ${{ secrets.LOGIC_APP_NAME }}
+          $profile = $profile.Replace("`r", "").Replace("`n", "")
           Write-Output "::set-output name=profile::$profile"
         azPSVersion: latest
 
@@ -63,5 +64,5 @@ jobs:
       with:
         app-name: ${{secrets.LOGIC_APP_NAME}}
         package: '${{ env.AZURE_LOGICAPP_PACKAGE_PATH }}/output'
-        publish-profile: steps.fncapp.outputs.profile
+        publish-profile: ${{steps.fncapp.outputs.profile}}
 
