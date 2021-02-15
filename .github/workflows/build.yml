@@ -35,9 +35,9 @@ jobs:
         azPSVersion: latest
 
     - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
-          uses: actions/setup-dotnet@v1
-          with:
-            dotnet-version: ${{ env.DOTNET_VERSION }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
           
     - name: 'Resolve Project Dependencies Using Dotnet'
       shell: pwsh
@@ -47,14 +47,14 @@ jobs:
         popd
 
     - name: Get publish Profile
-        id: fncapp
-        shell: pwsh
-        run: |
-          $profile = Get-AzWebAppPublishingProfile `
-              -ResourceGroupName $\{\{ env.RG_LA \}\} `
-              -Name $\{\{ secrets.LOGIC_APP_NAME \}\}
-          $profile = $profile.Replace("`r", "").Replace("`n", "")
-          Write-Output "::set-output name=profile::$profile"
+      id: fncapp
+      shell: pwsh
+      run: |
+        $profile = Get-AzWebAppPublishingProfile `
+            -ResourceGroupName $\{\{ env.RG_LA \}\} `
+            -Name $\{\{ secrets.LOGIC_APP_NAME \}\}
+        $profile = $profile.Replace("`r", "").Replace("`n", "")
+        Write-Output "::set-output name=profile::$profile"
 
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
