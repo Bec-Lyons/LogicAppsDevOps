@@ -13,9 +13,9 @@ jobs:
    logic_app_build: 
     runs-on: ubuntu-latest
     steps: 
-    - task: AzurePowerShell@4
-      displayName: 'Generate connections.json file'
-      inputs:
+    - name: 'Generate connections.json file'
+      uses: AzurePowerShell@4
+      with:
         azureSubscription: $(devServiceConnection)
         ScriptType: 'FilePath'
         ScriptPath: '$(workingDirectory)/.pipelines/scripts/Generate-Connections.ps1'
