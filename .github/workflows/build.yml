@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
     - name: Generate Connections
-      shell: powershell
-      run: Scripts/Generate-Connections.ps1
+      shell: pwsh
+      run: |
+        Scripts/Generate-Connections.ps1
       
