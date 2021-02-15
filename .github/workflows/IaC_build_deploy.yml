@@ -37,7 +37,7 @@ jobs:
       with:
         # You can change these environment variables for your configuration:   AZURE_SUBSCRIPTION_ID, AZURE_RESOURCE_GROUP
         scope: resourcegroup  
-        subscriptionId: ${{ secrets.subscriptionid }}
+        subscriptionId: ${{ secrets.AZURE_SUB }}
         resourceGroupName:  ${{ env.RG_LA }}
         template: ARM/la-template.json  # Set this to the location of your template file
         parameters: ARM/la-parameters.json # Set this to the location of your parameters file
@@ -50,7 +50,7 @@ jobs:
       uses: Azure/arm-deploy@v1.0.1
       with:
         scope: resourcegroup  
-        subscriptionId: ${{ secrets.subscriptionid }}
+        subscriptionId: ${{ secrets.AZURE_SUB }}
         resourceGroupName: ${{ env.RG_CON }}
         template: ARM/template.json  # Set this to the location of your template file
         parameters: ARM/parameters.json logicAppSystemAssignedIdentityTenantId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityTenantId }} logicAppSystemAssignedIdentityObjectId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityObjectId }}
