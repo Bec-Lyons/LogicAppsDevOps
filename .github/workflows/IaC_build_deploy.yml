@@ -52,8 +52,8 @@ jobs:
         scope: resourcegroup  
         subscriptionId: ${{ secrets.AZURE_SUB }}
         resourceGroupName: ${{ env.RG_CON }}
-        template: ARM/template.json  # Set this to the location of your template file
-        parameters: ARM/parameters.json logicAppSystemAssignedIdentityTenantId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityTenantId }} logicAppSystemAssignedIdentityObjectId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityObjectId }}
+        template: ARM/connectors-template.json  # Set this to the location of your template file
+        parameters: ARM/connectors-parameters.json logicAppSystemAssignedIdentityTenantId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityTenantId }} logicAppSystemAssignedIdentityObjectId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityObjectId }}
         deploymentMode: Incremental
 
     - name: Generate Connections.json
