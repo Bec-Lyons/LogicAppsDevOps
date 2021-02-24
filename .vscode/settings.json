@@ -3,5 +3,6 @@
   "azureLogicAppsV2.projectLanguage": "C#",
   "azureLogicAppsV2.projectRuntime": "~3",
   "debug.internalConsoleOptions": "neverOpen",
-  "azureLogicAppsV2.preDeployTask": "publish"
+  "azureLogicAppsV2.preDeployTask": "publish",
+  "powershell.codeFormatting.addWhitespaceAroundPipe": true
 }

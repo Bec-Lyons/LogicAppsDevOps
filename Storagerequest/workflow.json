@@ -8,27 +8,6 @@
                 "inputs": {
                     "statusCode": 200
                 },
-                "runAfter": {
-                    "List_blobs": [
-                        "Succeeded"
-                    ]
-                }
-            },
-            "List_blobs": {
-                "type": "ApiConnection",
-                "inputs": {
-                    "host": {
-                        "connection": {
-                            "referenceName": "azureblob"
-                        }
-                    },
-                    "method": "get",
-                    "path": "/datasets/default/foldersV2/@{encodeURIComponent(encodeURIComponent('/'))}",
-                    "queries": {
-                        "nextPageMarker": "",
-                        "useFlatListing": false
-                    }
-                },
                 "runAfter": {}
             }
         },
