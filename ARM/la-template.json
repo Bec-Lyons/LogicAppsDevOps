@@ -129,16 +129,24 @@
                         },
                         {
                             "name": "FUNCTIONS_WORKER_RUNTIME",
-                            "value":"dotnet"
+                            "value":"node"
                         },
                         {
                             "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
                             "value":"[concat('DefaultEndpointsProtocol=https;AccountName=',variables('sa'),';AccountKey=',concat(listKeys(concat(resourceGroup().id,'/providers/Microsoft.Storage/storageAccounts/', variables('sa')),'2019-06-01').keys[0].value),';EndpointSuffix=core.windows.net')]"
                         },
+                        {   "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                            "value": "~12"
+                        },
+                        {   
+                            "name": "APP_KIND",
+                            "value": "workflowApp"
+                        },
                         {
                             "name": "WEBSITE_CONTENTSHARE",
-                            "value":"cicdlogicappbdc3"
+                            "value":"variables('sa')"
                         }
+
 
                     ]
                 },
