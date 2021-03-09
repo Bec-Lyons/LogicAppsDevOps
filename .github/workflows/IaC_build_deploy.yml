@@ -76,18 +76,19 @@ jobs:
         azPSVersion: latest
 
 
-    - name: Create project folder
+   - name: Create project folder
       run: |
-        Copy '${{ github.workspace }}/host.json
-        proxies.json
-        connections.json
-        starterworkflow/**'
-        'output'
-    
-    - name: Create project zip
-      uses: montudor/action-zip@v0.1.0
+        mkdir output
+        cp 'host.json' 'output/'
+        cp 'proxies.json' 'output/'
+        cp 'connections.json' 'output/'
+        cp -r 'starterworkflow' 'output/'
+
+    - name: Easy Zip Files
+      uses: vimtor/action-zip@v1
       with:
-        args: zip -qq -r ${{ github.workspace }}/${{ github.run_id }}.zip ${{ github.workspace }}/output
+        dest: '${{ github.workspace }}/${{ github.run_id }}.zip'
+        files: output/
 
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
