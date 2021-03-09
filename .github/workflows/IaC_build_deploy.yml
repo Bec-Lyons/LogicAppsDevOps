@@ -78,17 +78,17 @@ jobs:
 
     - name: Create project folder
       run: |
-        mkdir ${{ github.workspace }}/output
-        cp 'host.json' '${{ github.workspace }}/output/'
-        cp 'proxies.json' '${{ github.workspace }}/output/'
-        cp 'connections.json' '${{ github.workspace }}/output/'
-        cp -r 'starterworkflow' '${{ github.workspace }}/output/'
+        mkdir output
+        cp 'host.json' 'output/'
+        cp 'proxies.json' 'output/'
+        cp 'connections.json' 'output/'
+        cp -r 'starterworkflow' 'output/'
 
     - name: Easy Zip Files
       uses: vimtor/action-zip@v1
       with:
         dest: '${{ github.workspace }}/${{ github.run_id }}.zip'
-        files: ${{ github.workspace }}/output/
+        files: output/
 
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
