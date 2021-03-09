@@ -53,12 +53,7 @@ jobs:
         cp 'proxies.json' 'output/'
         cp 'connections.json' 'output/'
         cp -r 'starterworkflow' 'output/'
-
-    - name: Create project zip
-      uses: montudor/action-zip@v0.1.0
-      with:
-        args: zip -qq -r ${{ github.workspace }}/${{ github.run_id }}.zip /output
-
+      
     - name: Easy Zip Files
         uses: vimtor/action-zip@v1
         with:
