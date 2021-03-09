@@ -52,7 +52,7 @@ jobs:
         cp 'host.json' 'output/'
         cp 'proxies.json' 'output/'
         cp 'connections.json' 'output/'
-        cp 'starterworkflow' 'output/'
+        cp -r 'starterworkflow' 'output/'
 
     - name: Create project zip
       uses: montudor/action-zip@v0.1.0
