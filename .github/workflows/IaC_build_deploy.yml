@@ -75,24 +75,28 @@ jobs:
           Write-Output "::set-output name=profile::$profile"
         azPSVersion: latest
 
-    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-          
-    - name: 'Resolve Project Dependencies Using Dotnet'
-      shell: pwsh
+
+    - name: Create project folder
       run: |
-        pushd './${{ env.AZURE_LOGICAPP_PACKAGE_PATH }}'
-        dotnet build --configuration Release --output ./output
-        popd
+        Copy '${{ github.workspace }}/host.json
+        proxies.json
+        connections.json
+        ExampleWorkflow/**
+        ' 'project_output'
+    
+    - name: Create project zip
+      uses: montudor/action-zip@v0.1.0
+      with:
+        args: zip -qq -r ${{ github.workspace }}/${{ github.run_id }}.zip ${{ github.workspace }}/output
+          
+    
 
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: ${{ steps.ladeploy.outputs.LAname }}
-        package: '${{ env.AZURE_LOGICAPP_PACKAGE_PATH }}/output'
+        package: '${{ github.workspace }}/output'
         publish-profile: ${{steps.fncapp.outputs.profile}}
    
    
