@@ -48,10 +48,11 @@ jobs:
 
     - name: Create project folder
       run: |
-        cp '${{ github.workspace }}/host.json' 'output'
-        cp '${{ github.workspace }}/proxies.json' 'output'
-        cp '${{ github.workspace }}/connections.json' 'output'
-        cp '${{ github.workspace }}/starterworkflow/**' 'output'
+        md output
+        cp 'host.json' 'output/'
+        cp 'proxies.json' 'output/'
+        cp 'connections.json' 'output/'
+        cp 'starterworkflow/**' 'output/'
 
     - name: Create project zip
       uses: montudor/action-zip@v0.1.0
