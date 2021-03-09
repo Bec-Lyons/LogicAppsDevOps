@@ -81,8 +81,8 @@ jobs:
         Copy '${{ github.workspace }}/host.json
         proxies.json
         connections.json
-        ExampleWorkflow/**
-        ' 'project_output'
+        starterworkflow/**
+        ' 'output'
     
     - name: Create project zip
       uses: montudor/action-zip@v0.1.0
