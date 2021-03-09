@@ -177,36 +177,7 @@ A pipeline that doth both build and deploy actions to build the Logic Apps proje
 
 With Logic App v2 being in preview, there are some caveats to be aware of.
 
-- [**Connections**] You cannot parameterize values inside the `connection.json` file. You can replace an entire variable with an `appsetting` parameter, but you cannot parameterize parts of a string. For example:
-
-  - This works: `"someVariable": "@appsetting('exampleVariable')"`
-  - This *does **not*** work: `"someVariable": "/subscriptions/@{appsetting('subId')}/resourceGroups/@{appsetting('resourceGroup')}/"`
-
-- [**Workflow**] Parameters are not yet supported inside the `workflow.json` file, but you can use `appsetting` instead. For example:
-
-  - `"someVariable": "myPrefix-@{appsetting('example')}"` || `"someVariable": "@appsetting('example')"`
-
-> NOTE: this *does **not*** work with `path` properties inside the workflow file, values for this property must be hardcoded for now. For example, the path property when you create an event grid trigger:
->
->```json
->   "When_a_resource_event_occurs": {
->       "type": "ApiConnectionWebhook",
->       "inputs": {
->           "host": {
->               "connection": {
->                   "referenceName": "azureeventgrid"
->               }
->           },
->           "body": { . . . },
->           "path": "THIS VALUE HAS TO BE HARD CODED",
->       },
->       "splitOn": "@triggerBody()"
->   }
->```
-
 - [Azurite](https://github.com/Azure/Azurite) is not yet supported.
-
-- There is currently a bug where generating a new `connections.json` file will update `.csproj` with another entry for the connections file, feel free to delete this new reference - you do not need to reference the connections file more than once.
 
 - Authentication is not yet supported using the built-in HTTP operation
 
