@@ -57,7 +57,7 @@ jobs:
     - name: Easy Zip Files
       uses: vimtor/action-zip@v1
       with:
-        dest: '${{ github.workspace }}/${{ github.run_id }}.zip'
+        dest: '${{ github.run_id }}.zip'
         files: output/
 
     - name: 'Run Azure Functions Action'
@@ -65,6 +65,6 @@ jobs:
       id: fa
       with:
         app-name: ${{env.RG_LA}}
-        package: '${{ github.workspace }}/${{ github.run_id }}.zip'
+        package: '${{ github.run_id }}.zip'
         publish-profile: ${{steps.fncapp.outputs.profile}}
 
