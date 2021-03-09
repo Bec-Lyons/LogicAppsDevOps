@@ -57,7 +57,7 @@ jobs:
     - name: Create project zip
       uses: montudor/action-zip@v0.1.0
       with:
-        args: zip -qq -r ${{ github.workspace }}/${{ github.run_id }}.zip ${{ github.workspace }}/output
+        args: zip -qq -r ${{ github.workspace }}/${{ github.run_id }}.zip /output
 
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
