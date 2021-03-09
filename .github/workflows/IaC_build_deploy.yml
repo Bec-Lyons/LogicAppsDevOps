@@ -76,7 +76,7 @@ jobs:
         azPSVersion: latest
 
 
-   - name: Create project folder
+    - name: Create project folder
       run: |
         mkdir output
         cp 'host.json' 'output/'
