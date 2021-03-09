@@ -53,12 +53,12 @@ jobs:
         cp 'proxies.json' 'output/'
         cp 'connections.json' 'output/'
         cp -r 'starterworkflow' 'output/'
-      
+
     - name: Easy Zip Files
-        uses: vimtor/action-zip@v1
-        with:
-          dest: "${{ github.workspace }}/${{ github.run_id }}.zip"
-          files: output/
+      uses: vimtor/action-zip@v1
+      with:
+        dest: '${{ github.workspace }}/${{ github.run_id }}.zip'
+        files: output/
 
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
