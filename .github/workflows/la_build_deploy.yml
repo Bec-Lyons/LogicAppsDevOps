@@ -48,7 +48,7 @@ jobs:
 
     - name: Create project folder
       run: |
-        Copy '${{ github.workspace }}/host.json
+        Copy 'host.json
         proxies.json
         connections.json
         starterworkflow/**'
