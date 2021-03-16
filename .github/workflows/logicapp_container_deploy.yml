@@ -9,6 +9,10 @@ env:
   RG_LA: 'GHApp'
   RG_CON: 'GHConnections'
   LA_NAME: 'cicdsa34234'
+  Cont_Image: 'logicapp'
+  Cont_Tag: '01'
+  acrUsername: 'logicapp'
+  acrPassword: '01'
 
 on:
   - workflow_dispatch 
@@ -27,6 +31,7 @@ jobs:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true 
 
+     #build container image
     - name: Generate Connections
       uses: azure/powershell@v1
       with:
@@ -34,37 +39,25 @@ jobs:
           ./Scripts/Generate-Connections.ps1 -resourceGroup '${{ env.RG_CON }}'
         azPSVersion: latest
 
-    - name: Get publish Profile
-      id: fncapp
-      uses: azure/powershell@v1
+    - name: 'Docker Login'
+      uses: azure/docker-login@v1
       with:
-        inlineScript: |
-          $profile = Get-AzWebAppPublishingProfile `
-              -ResourceGroupName ${{ env.RG_LA }} `
-              -Name ${{ env.LA_NAME }}
-          $profile = $profile.Replace("`r", "").Replace("`n", "")
-          Write-Output "::set-output name=profile::$profile"
-        azPSVersion: latest
+        login-server: ${{ env.acrUsername }}.azurecr.io
+        username: ${{ env.acrUsername }}
+        password: ${{ env.acrPassword }}
 
-    - name: Create project folder
+    - name: 'Compose Customized Docker Image'
+      shell: bash
       run: |
-        mkdir output
-        cp 'host.json' 'output/'
-        cp 'proxies.json' 'output/'
-        cp 'connections.json' 'output/'
-        cp -r 'starterworkflow' 'output/'
+        docker build . -t ${{ steps.ladeploy.outputs.acrUsername }}.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Image }}
+        docker push ${{ steps.ladeploy.outputs.acrUsername }}.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Image }}
 
-    - name: Easy Zip Files
-      uses: vimtor/action-zip@v1
-      with:
-        dest: '${{ github.run_id }}.zip'
-        files: output/
-
-    - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1
+    - name: 'Run Azure Functions Container Action'
+      uses: Azure/functions-container-action@v1
       id: fa
       with:
-        app-name: ${{env.RG_LA}}
-        package: '${{ github.run_id }}.zip'
-        publish-profile: ${{steps.fncapp.outputs.profile}}
-
+        app-name: PLEASE_REPLACE_THIS_WITH_YOUR_FUNCTION_APP_NAME
+        image: REGISTRY/NAMESPACE/IMAGE:TAG
+    #- name: 'use the published functionapp url in upcoming steps'
+    #  run: |
+    #    echo "${{ steps.fa.outputs.app-url }}"

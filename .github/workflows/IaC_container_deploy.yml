@@ -81,9 +81,9 @@ jobs:
     - name: 'Docker Login'
       uses: azure/docker-login@v1
       with:
-        login-server: ${{ steps.condeploy.outputs.acrUsername }}.azurecr.io
-        username: ${{ steps.condeploy.outputs.acrUsername }}
-        password: ${{ steps.condeploy.outputs.acrPassword }}
+        login-server: ${{ steps.acrdeploy.outputs.acrUsername }}.azurecr.io
+        username: ${{ steps.acrdeploy.outputs.acrUsername }}
+        password: ${{ steps.acrdeploy.outputs.acrPassword }}
 
     - name: 'Compose Customized Docker Image'
       shell: bash
