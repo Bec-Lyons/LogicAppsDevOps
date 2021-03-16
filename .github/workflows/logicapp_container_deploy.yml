@@ -56,7 +56,7 @@ jobs:
       id: fa
       with:
         app-name: ${{ env.LA_NAME }}
-        image: '${{ env.acrUsername }}''.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Tag }}''
+        image: '${{ env.acrUsername }}''.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Tag }}'
     #- name: 'use the published functionapp url in upcoming steps'
     #  run: |
     #    echo "${{ steps.fa.outputs.app-url }}"
