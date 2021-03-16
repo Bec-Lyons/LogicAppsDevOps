@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and Deploy Logic App. 
+name: (container) Build and Deploy Logic App. 
 
 env:
   AZURE_LOGICAPP_PACKAGE_PATH: '.'
@@ -48,8 +48,8 @@ jobs:
     - name: 'Compose Customized Docker Image'
       shell: bash
       run: |
-        docker build . -t  '${{ env.acrUsername }}''.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Tag }}
-        docker push  '${{ env.acrUsername }}''.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Tag }}
+        docker build . -t  ${{ env.acrUsername }}.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Tag }}
+        docker push  ${{ env.acrUsername }}.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Tag }}
 
     - name: 'Run Azure Functions Container Action'
       uses: Azure/functions-container-action@v1
