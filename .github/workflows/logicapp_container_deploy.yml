@@ -11,8 +11,7 @@ env:
   LA_NAME: 'cicdsa34234'
   Cont_Image: 'logicapp'
   Cont_Tag: '01'
-  acrUsername: 'logicapp'
-  acrPassword: '01'
+  acrUsername: 'demoacr31313'
 
 on:
   - workflow_dispatch 
@@ -44,13 +43,13 @@ jobs:
       with:
         login-server: ${{ env.acrUsername }}.azurecr.io
         username: ${{ env.acrUsername }}
-        password: ${{ env.acrPassword }}
+        password: ${{secrets.ACRPASSWORD}}
 
     - name: 'Compose Customized Docker Image'
       shell: bash
       run: |
-        docker build . -t ${{ steps.ladeploy.outputs.acrUsername }}.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Image }}
-        docker push ${{ steps.ladeploy.outputs.acrUsername }}.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Image }}
+        docker build . -t  ${{ env.acrUsername }}.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Tag }}
+        docker push  ${{ env.acrUsername }}.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Tag }}
 
     - name: 'Run Azure Functions Container Action'
       uses: Azure/functions-container-action@v1
