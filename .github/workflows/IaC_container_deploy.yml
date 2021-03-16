@@ -88,15 +88,15 @@ jobs:
     - name: 'Compose Customized Docker Image'
       shell: bash
       run: |
-        docker build . -t ${{ steps.ladeploy.outputs.acrUsername }}.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Image }}
-        docker push ${{ steps.ladeploy.outputs.acrUsername }}.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Image }}
+        docker build . -t ${{ steps.acrdeploy.outputs.acrUsername }}.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Image }}
+        docker push ${{ steps.acrdeploy.outputs.acrUsername }}.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Image }}
 
     - name: 'Run Azure Functions Container Action'
       uses: Azure/functions-container-action@v1
       id: fa
       with:
-        app-name: PLEASE_REPLACE_THIS_WITH_YOUR_FUNCTION_APP_NAME
-        image: REGISTRY/NAMESPACE/IMAGE:TAG
+        app-name: ${{ steps.ladeploy.outputs.LAname }}
+        image: ${{ steps.acrdeploy.outputs.acrUsername }}.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Image }}
     #- name: 'use the published functionapp url in upcoming steps'
     #  run: |
     #    echo "${{ steps.fa.outputs.app-url }}"
