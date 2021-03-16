@@ -82,7 +82,7 @@ jobs:
       uses: Azure/functions-container-action@v1
       id: fa
       with:
-        app-name: ${{ steps.ladeploy.outputs.LAname }}
+        app-name: ${{ steps.acrdeploy.outputs.LAname }}
         image: ${{ steps.acrdeploy.outputs.acrUsername }}.azurecr.io/${{ env.Cont_Image }}:${{ env.Cont_Image }}
     #- name: 'use the published functionapp url in upcoming steps'
     #  run: |
