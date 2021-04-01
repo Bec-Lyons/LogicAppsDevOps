@@ -10,7 +10,7 @@ env:
   AZURE_LOGICAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '3.1.301'    # set this to the dotnet version to use
   RG_LA: 'GHApp'
-  RG_CON: 'GHConnections'
+  RG_CON: 'ConnectorsProd'
 
 jobs:
   deploy-all: 
