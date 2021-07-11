@@ -6,19 +6,19 @@
             "value": "Australia Southeast"
         },
         "environmentName": {
-            "value": "cicdsa"
+            "value": "env-name"
         },
         "projectName": {
-            "value": "cicdsa"
+            "value": "project-name"
         },
         "logicAppName": {
-            "value": "cicdsa34234"
+            "value": "la-name"
         },
         "appServicePlanName": {
-            "value": "cicdasp12321"
+            "value": "asp-name"
         },
         "storageName": {
-            "value": "storagela12321"
+            "value": "storage-name"
         },
         "kind": {
             "value": "StorageV2"
