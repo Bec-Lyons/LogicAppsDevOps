@@ -9,7 +9,7 @@
             "value": "__2__"
         },
         "sa_name": {
-            "value": "prodsa"
+            "value": "pr"
         },
         "connections_azureblob_name": {
             "value":"azureblob"
