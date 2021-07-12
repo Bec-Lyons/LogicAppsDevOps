@@ -141,7 +141,7 @@
               },
               {
                 "name": "WORKFLOWS_RESOURCE_GROUP_NAME", 
-                "value": "[resourceGroup().name]"
+                "value": ""
               },
               {
                 "name": "BLOB_CONNECTION_RUNTIMEURL", 
