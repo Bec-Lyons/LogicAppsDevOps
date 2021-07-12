@@ -5,6 +5,7 @@ name: (classic) Build and Deploy Logic App.
 
 env:
   LA_NAME: 'la-name-324234'
+  LA_NAME_prod: 'prod-la-name-324234'
 
 on:
   workflow_dispatch:
@@ -36,12 +37,12 @@ jobs:
         path: ./build-art/
         retention-days: 1 
 
-  logic_app_deploy: 
-    name: Deploy 
+  logic_app_deploy_dev: 
+    name: Deploy Dev 
     runs-on: ubuntu-latest
     needs: [logic_app_build]
     environment: 
-      name: Dev
+      name: dev
     steps: 
     - name: Checkout
       uses: actions/checkout@v1    
@@ -81,5 +82,52 @@ jobs:
       with:
         inlineScript: |
           az functionapp deploy --resource-group ${{ secrets.RG_LA }} --name ${{ env.LA_NAME }} --src-path  logic/azure.parameters.json --type static --target-path parameters.json
+        azPSVersion: latest
+
+  logic_app_deploy_dev: 
+    name: Deploy Prod 
+    runs-on: ubuntu-latest
+    needs: [logic_app_deploy_dev]
+    environment: 
+      name: prod
+    steps: 
+    - name: Checkout
+      uses: actions/checkout@v1    
+    - name: Login via Az module
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true 
+    - uses: actions/download-artifact@master
+      with:
+        name: logic
+        path: ./build-art/
+        
+    - name: Get publish Profile
+      id: publishprofile
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          $profile = Get-AzWebAppPublishingProfile `
+              -ResourceGroupName ${{ secrets.RG_LA }} `
+              -Name ${{ env.LA_NAME_prod }}
+          $profile = $profile.Replace("`r", "").Replace("`n", "")
+          Write-Output "::set-output name=profile::$profile"
+        azPSVersion: latest
+
+    - name: Deploy to Azure Logic App
+      uses: Azure/functions-action@v1.3.1
+      id: la
+      with:
+        app-name: ${{secrets.RG_LA}}
+        package: './build-art/logic.zip'
+        publish-profile: ${{steps.publishprofile.outputs.profile}}
+
+    - name: Swap parameter files 
+      id: params
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          az functionapp deploy --resource-group ${{ secrets.RG_LA }} --name ${{ env.LA_NAME_prod }} --src-path  logic/azure.parameters.json --type static --target-path parameters.json
         azPSVersion: latest
 
