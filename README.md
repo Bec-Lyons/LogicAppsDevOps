@@ -164,21 +164,15 @@ Everything in this sample is parameterised for you. To deploy to new environment
 > 
 > These are two example pipelines that are relatively condensed, however you are free to separate these out into separate pipelines as suits your DevOps process. (for example, separate pipelines for build, release, infra deployments etc.). 
 
-## Known Issues & Limitations
 
-With Logic App (single-tenant) being in preview, there are some caveats to be aware of.
-
-- [Azurite](https://github.com/Azure/Azurite) is not yet supported.
-
-- Authentication is not yet supported using the built-in HTTP operation
 
 ### Q & A
 
 Q: Why do I have to recreate the operation that uses the API connection?
 
-- A: Currently, whilst Logic Apps (single tenant) is in preview, the designer does not allow you to select or create a new connection when a `connections.json` file does not already exist, the only way
+- A: Currently the designer does not allow you to select or create a new connection when a `connections.json` file does not already exist, the only way
   around this is to recreate the operation that uses the connection, or create any operation that uses that connection inside a new workflow file.
 
 Q: Why do I need to get a connection key to run locally?
 
-- A: When running logic apps locally, the connection needs to use the 'Raw' authentication method for connections to work. When deploying to Azure, the authentication method needs to be `ManagedServiceIdentity`.
+- A: When running logic apps locally, the connection needs to use the 'Raw' authentication method for connections to work. When deploying to Azure, the authentication method needs to be `ManagedIdentity`.
