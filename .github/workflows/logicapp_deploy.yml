@@ -18,7 +18,7 @@ on:
   push:
     paths:
       - "logic/**"
-      - ".github/workflows/logicapp_deploy.yaml"
+      - ".github/workflows/logicapp_deploy.yml"
 
 jobs:
   logic_app_build: 

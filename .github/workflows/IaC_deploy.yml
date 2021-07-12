@@ -8,7 +8,7 @@ on:
   push:
     paths:
       - "ARM/**"
-      - ".github/workflows/IaC_deploy.yaml"
+      - ".github/workflows/IaC_deploy.yml"
 
 jobs:
   DeployDev:
