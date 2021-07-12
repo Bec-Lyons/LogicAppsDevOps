@@ -106,7 +106,7 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUB }}
         resourceGroupName: ${{ secrets.RG_CON }}
         template: ARM/connectors-template.json  # Set this to the location of your template file
-        parameters: ARM/connectors-parameters.prod.json logicAppSystemAssignedIdentityTenantId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityTenantId }} logicAppSystemAssignedIdentityObjectId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityObjectId }}
+        parameters: ARM/connectors-parameters.prod.json logicAppSystemAssignedIdentityTenantId=${{ steps.ladeploy2.outputs.logicAppSystemAssignedIdentityTenantId }} logicAppSystemAssignedIdentityObjectId=${{ steps.ladeploy2.outputs.logicAppSystemAssignedIdentityObjectId }}
         deploymentMode: Incremental
 
     - name: Update Logic App Connections 
