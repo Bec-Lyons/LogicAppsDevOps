@@ -4,8 +4,8 @@
 name: (classic) Build and Deploy Logic App. 
 
 env:
-  RG_LA: 'your-la-rg'
-  RG_CON: 'your-con-rg'
+  RG_LA: 'devopsdemologic'
+  RG_CON: 'devopsdemoconnections'
   LA_NAME: 'your-la-name'
 
 on:

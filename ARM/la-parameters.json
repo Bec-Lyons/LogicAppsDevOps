@@ -12,13 +12,13 @@
             "value": "project-name"
         },
         "logicAppName": {
-            "value": "la-name"
+            "value": "la-name-324234"
         },
         "appServicePlanName": {
-            "value": "asp-name"
+            "value": "asp-name-2432423"
         },
         "storageName": {
-            "value": "storage-name"
+            "value": "sa2343243423"
         },
         "kind": {
             "value": "StorageV2"

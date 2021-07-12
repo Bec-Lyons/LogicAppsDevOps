@@ -11,8 +11,8 @@ on:
       - ".github/workflows/IaC_deploy.yaml"
 
 env:
-  RG_LA: 'your-la-rg'
-  RG_CON: 'your-con-rg'
+  RG_LA: 'devopsdemologic'
+  RG_CON: 'devopsdemoconnections'
 
 jobs:
   deploy-all: 
