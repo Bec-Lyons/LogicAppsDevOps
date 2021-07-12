@@ -84,7 +84,7 @@ jobs:
           az functionapp deploy --resource-group ${{ secrets.RG_LA }} --name ${{ env.LA_NAME }} --src-path  logic/azure.parameters.json --type static --target-path parameters.json
         azPSVersion: latest
 
-  logic_app_deploy_dev: 
+  logic_app_deploy_prod: 
     name: Deploy Prod 
     runs-on: ubuntu-latest
     needs: [logic_app_deploy_dev]
