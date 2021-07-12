@@ -4,9 +4,7 @@
 name: (classic) Build and Deploy Logic App. 
 
 env:
-  RG_LA: 'devopsdemologic'
-  RG_CON: 'devopsdemoconnections'
-  LA_NAME: 'your-la-name'
+  LA_NAME: 'la-name-324234'
 
 on:
   workflow_dispatch:
@@ -23,7 +21,7 @@ on:
       - ".github/workflows/logicapp_deploy.yaml"
 
 jobs:
-   logic_app_build: 
+  logic_app_build: 
     runs-on: ubuntu-latest
     steps: 
     - name: Checkout
@@ -37,8 +35,10 @@ jobs:
         path: ./logic.zip
         retention-days: 1 
 
-   logic_app_deploy: 
+  logic_app_deploy: 
     runs-on: ubuntu-latest
+    environment: 
+      name: Dev
     steps: 
     - name: Checkout
       uses: actions/checkout@v1    
@@ -58,7 +58,7 @@ jobs:
       with:
         inlineScript: |
           $profile = Get-AzWebAppPublishingProfile `
-              -ResourceGroupName ${{ env.RG_LA }} `
+              -ResourceGroupName ${{ secrets.RG_LA }} `
               -Name ${{ env.LA_NAME }}
           $profile = $profile.Replace("`r", "").Replace("`n", "")
           Write-Output "::set-output name=profile::$profile"
@@ -68,7 +68,7 @@ jobs:
       uses: Azure/functions-action@v1
       id: la
       with:
-        app-name: ${{env.RG_LA}}
+        app-name: ${{secrets.RG_LA}}
         package: './logic.zip'
         publish-profile: ${{steps.publishprofile.outputs.profile}}
 
@@ -77,6 +77,6 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          az functionapp deploy --resource-group ${{ env.RG_LA }} --name ${{ env.LA_NAME }} --src-path ../../azure.parameters.json --type static --target-path parameters.json
+          az functionapp deploy --resource-group ${{ secrets.RG_LA }} --name ${{ env.LA_NAME }} --src-path ../../azure.parameters.json --type static --target-path parameters.json
         azPSVersion: latest
 

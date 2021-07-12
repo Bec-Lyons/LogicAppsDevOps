@@ -10,14 +10,56 @@ on:
       - "ARM/**"
       - ".github/workflows/IaC_deploy.yaml"
 
-env:
-  RG_LA: 'devopsdemologic'
-  RG_CON: 'devopsdemoconnections'
-
 jobs:
-  deploy-all: 
+  DeployDev:
+    name: Deploy to Dev
     runs-on: ubuntu-latest
-    steps:              
+    environment: 
+      name: Dev
+    steps:
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS  }}
+        enable-AzPSSession: true 
+
+    # Checkout
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    # Deployment of template  
+    - name: Deploy Logic App Resources
+      uses: Azure/arm-deploy@v1.0.1
+      id: ladeploy
+      with:
+        # You can change these environment variables for your configuration:   AZURE_SUBSCRIPTION_ID, AZURE_RESOURCE_GROUP
+        scope: resourcegroup  
+        subscriptionId: ${{ secrets.AZURE_SUB }}
+        resourceGroupName:  ${{ secrets.RG_LA }}
+        template: ARM/la-template.json  # Set this to the location of your template file
+        parameters: ARM/la-parameters.json # Set this to the location of your parameters file
+        deploymentMode: Incremental
+   
+    # Deployment of template    
+    - name: Deploy Connector Resources 
+      id: msdemoconn
+      uses: Azure/arm-deploy@v1.0.1
+      with:
+        scope: resourcegroup  
+        subscriptionId: ${{ secrets.AZURE_SUB }}
+        resourceGroupName: ${{ secrets.RG_CON }}
+        template: ARM/connectors-template.json  # Set this to the location of your template file
+        parameters: ARM/connectors-parameters.json logicAppSystemAssignedIdentityTenantId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityTenantId }} logicAppSystemAssignedIdentityObjectId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityObjectId }}
+        deploymentMode: Incremental
+
+        
+  DeployProd:
+    name: Deploy to Prod
+    runs-on: ubuntu-latest
+    environment: 
+      name: Prod
+    steps:
+                      
     # Authentication
     # Set up the following secrets in your repository: AZURE_CREDENTIALS
     # For details on usage of secrets, please refer https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
@@ -40,7 +82,7 @@ jobs:
         # You can change these environment variables for your configuration:   AZURE_SUBSCRIPTION_ID, AZURE_RESOURCE_GROUP
         scope: resourcegroup  
         subscriptionId: ${{ secrets.AZURE_SUB }}
-        resourceGroupName:  ${{ env.RG_LA }}
+        resourceGroupName:  ${{ secrets.RG_LA }}
         template: ARM/la-template.json  # Set this to the location of your template file
         parameters: ARM/la-parameters.json # Set this to the location of your parameters file
         deploymentMode: Incremental
@@ -52,11 +94,12 @@ jobs:
       with:
         scope: resourcegroup  
         subscriptionId: ${{ secrets.AZURE_SUB }}
-        resourceGroupName: ${{ env.RG_CON }}
+        resourceGroupName: ${{ secrets.RG_CON }}
         template: ARM/connectors-template.json  # Set this to the location of your template file
         parameters: ARM/connectors-parameters.json logicAppSystemAssignedIdentityTenantId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityTenantId }} logicAppSystemAssignedIdentityObjectId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityObjectId }}
         deploymentMode: Incremental
 
+   
 
    # - name: Azure CLI script file
    #   uses: azure/CLI@v1
