@@ -10,6 +10,13 @@ env:
 
 on:
   workflow_dispatch:
+    # Trigger the workflow every time the build workflow ran to completion
+  workflow_run:
+    workflows:
+      - (classic) Logic App Infrastructure as Code Pipeline.
+    types:
+      - completed
+  # Triggers when an environment file has been changed  
   push:
     paths:
       - "logic/**"
