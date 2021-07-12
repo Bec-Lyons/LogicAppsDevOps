@@ -4,7 +4,11 @@
 name: (classic) Logic App Infrastructure as Code Pipeline. 
 
 on:
-  - workflow_dispatch 
+  workflow_dispatch:
+  push:
+    paths:
+      - "ARM/**"
+      - ".github/workflows/IaC_deploy.yaml"
 
 env:
   RG_LA: 'your-la-rg'
@@ -13,8 +17,7 @@ env:
 jobs:
   deploy-all: 
     runs-on: ubuntu-latest
-    steps:
-                      
+    steps:              
     # Authentication
     # Set up the following secrets in your repository: AZURE_CREDENTIALS
     # For details on usage of secrets, please refer https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
@@ -53,5 +56,17 @@ jobs:
         template: ARM/connectors-template.json  # Set this to the location of your template file
         parameters: ARM/connectors-parameters.json logicAppSystemAssignedIdentityTenantId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityTenantId }} logicAppSystemAssignedIdentityObjectId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityObjectId }}
         deploymentMode: Incremental
+
+
+   # - name: Azure CLI script file
+   #   uses: azure/CLI@v1
+   #   with:
+   #     azcliversion: 2.0.72
+   #     inlineScript: |
+   #       integrationKey=$(az eventgrid topic key list --name $4 -g $1 --query "key1" --output tsv)
+   #       integrationPath="/subscriptions/${6}/resourceGroups/${1}/providers/Microsoft.EventGrid/topics/${4}"
+   #       az functionapp config appsettings set --name $2 --resource-group $1 --settings "EVENTGRID_CONNECTION_RUNTIMEURL=$5"
+   #       az functionapp config appsettings set --name $2 --resource-group $1 --settings "INTEGRATION_PATH=${integrationPath}"
+
 
    
