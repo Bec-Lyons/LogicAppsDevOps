@@ -130,7 +130,23 @@
               {
                 "name": "WEBSITE_NODE_DEFAULT_VERSION",
                 "value": "~12"
-              }
+              }, 
+              {
+                "name": "WORKFLOWS_SUBSCRIPTION_ID", 
+                "value": "[subscription().subscriptionId]"
+              },
+              {
+                "name": "WORKFLOWS_LOCATION_NAME", 
+                "value": "[parameters('location')]"
+              },
+              {
+                "name": "WORKFLOWS_RESOURCE_GROUP_NAME", 
+                "value": "[resourceGroup().resourceGroupName]"
+              },
+              {
+                "name": "BLOB_CONNECTION_RUNTIMEURL", 
+                "value": ""
+              }              
             ]
           },
           "clientAffinityEnabled": false

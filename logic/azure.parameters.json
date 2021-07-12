@@ -20,6 +20,12 @@
         "value": {
             "type": "ManagedServiceIdentity"
         }
+    },
+    "blob_auth": {
+        "type":"object", 
+        "value": {
+            "type": "ManagedServiceIdentity"
+        }
     }
 
 }

@@ -22,6 +22,14 @@
             "scheme": "Key",
             "parameter": "@appsetting('azureeventgrid_1-connectionKey')"
         }
+    }, 
+    "blob_auth": {
+        "type":"object", 
+        "value": {
+            "type": "Raw",
+            "scheme": "Key",
+            "parameter": "@appsetting('azureblob-connectionKey')"
+        }
     }
 
 }

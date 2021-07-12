@@ -93,5 +93,11 @@
             }
         }
    
-    ]
+    ],
+    "outputs": {
+      "blobendpointurl": {
+        "type": "string",
+        "value": "[reference(resourceId('Microsoft.Web/connections', parameters('connections_azureblob_name')),'2016-06-01', 'full').properties.connectionRuntimeUrl]"
+      }
+    }
 }
