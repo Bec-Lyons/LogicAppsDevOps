@@ -1,28 +1,4 @@
 {
-    "PARAMS_WORKFLOW_EVENTGRID_TOPIC": {
-        "type": "string",
-        "value": "paste your event grid topic from your test workflow.json"
-    },
-    "EVENTGRID_CONNECTOR_API":{
-        "type":"string",
-        "value":"/subscriptions/@appsetting('WORKFLOWS_SUBSCRIPTION_ID')/providers/Microsoft.Web/locations/@appsetting('WORKFLOWS_LOCATION_NAME')/managedApis/azureeventgrid"
-    }, 
-    "EVENTGRID_CONNECTION":{
-        "type":"string",
-        "value":"/subscriptions/@appsetting('WORKFLOWS_SUBSCRIPTION_ID')/resourceGroups/@appsetting('WORKFLOWS_RESOURCE_GROUP_NAME')/providers/Microsoft.Web/connections/azureeventgrid"
-    }, 
-    "EVENTGRID_CONNECTION_RUNTIMEURL":{
-        "type":"string",
-        "value":"paste your endpoint here from connections.json"
-    }, 
-    "auth": {
-        "type":"object", 
-        "value": {
-            "type": "Raw",
-            "scheme": "Key",
-            "parameter": "@appsetting('azureeventgrid_1-connectionKey')"
-        }
-    }, 
     "blob_auth": {
         "type":"object", 
         "value": {

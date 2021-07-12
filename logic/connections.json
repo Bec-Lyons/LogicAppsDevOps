@@ -1,15 +1,5 @@
 {
   "managedApiConnections": {
-    "azureeventgrid": {
-      "api": {
-        "id": "@parameters('EVENTGRID_CONNECTOR_API')"
-      },
-      "connection": {
-        "id": "@parameters('EVENTGRID_CONNECTION')"
-      },
-      "connectionRuntimeUrl": "@appsetting('EVENTGRID_CONNECTION_RUNTIMEURL')",
-      "authentication": "@parameters('auth')"
-    },
     "azureblob": {
       "api": {
         "id": "/subscriptions/@appsetting('WORKFLOWS_SUBSCRIPTION_ID')/providers/Microsoft.Web/locations/@appsetting('WORKFLOWS_LOCATION_NAME')/managedApis/azureblob"

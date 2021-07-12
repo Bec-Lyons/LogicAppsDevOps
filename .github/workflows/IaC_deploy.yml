@@ -60,7 +60,8 @@ jobs:
           az functionapp config appsettings set --name ${{ steps.ladeploy.outputs.LAname }} --resource-group  ${{ secrets.RG_LA }} --settings "BLOB_CONNECTION_RUNTIMEURL=${{ steps.msdemoconn.outputs.blobendpointurl }}"
           az functionapp config appsettings set --name ${{ steps.ladeploy.outputs.LAname }} --resource-group  ${{ secrets.RG_LA }} --settings "WORKFLOWS_RESOURCE_GROUP_NAME=${{ secrets.RG_CON }}"
 
-        
+  
+  # Here is a sample second environment - all you'll need to do is create a new environment in your repositories Settings for RG_LA and RG_CON and you're good to go!
   # DeployProd:
   #   name: Deploy to Prod
   #   needs: [DeployDev]
@@ -107,18 +108,13 @@ jobs:
   #       template: ARM/connectors-template.json  # Set this to the location of your template file
   #       parameters: ARM/connectors-parameters.json logicAppSystemAssignedIdentityTenantId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityTenantId }} logicAppSystemAssignedIdentityObjectId=${{ steps.ladeploy.outputs.logicAppSystemAssignedIdentityObjectId }}
   #       deploymentMode: Incremental
+    # - name: Update Logic App Connections 
+    #   uses: azure/CLI@v1
+    #   with:
+    #     azcliversion: 2.0.72
+    #     inlineScript: |
+    #       az functionapp config appsettings set --name ${{ steps.ladeploy.outputs.LAname }} --resource-group  ${{ secrets.RG_LA }} --settings "BLOB_CONNECTION_RUNTIMEURL=${{ steps.msdemoconn.outputs.blobendpointurl }}"
+    #       az functionapp config appsettings set --name ${{ steps.ladeploy.outputs.LAname }} --resource-group  ${{ secrets.RG_LA }} --settings "WORKFLOWS_RESOURCE_GROUP_NAME=${{ secrets.RG_CON }}"
 
-   
-
-   # - name: Azure CLI script file
-   #   uses: azure/CLI@v1
-   #   with:
-   #     azcliversion: 2.0.72
-   #     inlineScript: |
-   #       integrationKey=$(az eventgrid topic key list --name $4 -g $1 --query "key1" --output tsv)
-   #       integrationPath="/subscriptions/${6}/resourceGroups/${1}/providers/Microsoft.EventGrid/topics/${4}"
-   #       az functionapp config appsettings set --name $2 --resource-group $1 --settings "EVENTGRID_CONNECTION_RUNTIMEURL=$5"
-   #       az functionapp config appsettings set --name $2 --resource-group $1 --settings "INTEGRATION_PATH=${integrationPath}"
-
-
-   
+      
+  
