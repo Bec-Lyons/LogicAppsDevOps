@@ -146,6 +146,10 @@
               {
                 "name": "BLOB_CONNECTION_RUNTIMEURL", 
                 "value": ""
+              },
+              {
+                "name": "serviceBus_connectionString", 
+                "value":"Endpoint=sb://dev-dihsbmgq6f3psyytoe.servicebus.windows.net/;SharedAccessKeyName=authrules;SharedAccessKey=YBw6g5tAOfjpKcnFff0aWpd7zuX2Qm1QnoMMeE0deuE=;EntityPath=accessoriesqueue"
               }              
             ]
           },

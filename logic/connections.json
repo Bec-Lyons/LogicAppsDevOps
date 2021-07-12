@@ -10,5 +10,16 @@
       "connectionRuntimeUrl": "@appsetting('BLOB_CONNECTION_RUNTIMEURL')",
       "authentication": "@parameters('blob_auth')"
     }
+  },
+  "serviceProviderConnections": {
+    "serviceBus": {
+      "parameterValues": {
+        "connectionString": "@appsetting('serviceBus_connectionString')"
+      },
+      "serviceProvider": {
+        "id": "/serviceProviders/serviceBus"
+      },
+      "displayName": "servicebus"
+    }
   }
 }
