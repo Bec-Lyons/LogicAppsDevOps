@@ -55,6 +55,7 @@ jobs:
         
   DeployProd:
     name: Deploy to Prod
+    needs: [DeployDev]
     runs-on: ubuntu-latest
     environment: 
       name: Prod
