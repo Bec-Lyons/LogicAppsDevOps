@@ -80,6 +80,6 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          az functionapp deploy --resource-group ${{ secrets.RG_LA }} --name ${{ env.LA_NAME }} --src-path ../../azure.parameters.json --type static --target-path ../../parameters.json
+          az functionapp deploy --resource-group ${{ secrets.RG_LA }} --name ${{ env.LA_NAME }} --src-path  $GITHUB_WORKSPACE/logic/azure.parameters.json --type static --target-path parameters.json
         azPSVersion: latest
 
