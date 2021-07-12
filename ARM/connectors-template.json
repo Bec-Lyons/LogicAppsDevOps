@@ -57,7 +57,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2018-02-01",
-            "name": "[concat([variables('sa')], '/default/blobs')]",
+            "name": "[concat(variables('sa'), '/default/blobs')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', variables('sa'))]"
             ],
