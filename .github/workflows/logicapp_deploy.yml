@@ -28,12 +28,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Package logic
-      run: (cd logic; zip -r ../logic.zip .)
+      run: (cd logic; zip -r ../build-art/logic.zip .)
     - name: Upload app zip package
       uses: actions/upload-artifact@v2
       with:
         name: logic
-        path: ./logic.zip
+        path: ./build-art/
         retention-days: 1 
 
   logic_app_deploy: 
@@ -53,7 +53,7 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: logic
-        path: ./logic.zip
+        path: ./build-art/
         
     - name: Get publish Profile
       id: publishprofile
@@ -72,7 +72,7 @@ jobs:
       id: la
       with:
         app-name: ${{secrets.RG_LA}}
-        package: './logic.zip'
+        package: './build-art/logic.zip'
         publish-profile: ${{steps.publishprofile.outputs.profile}}
 
     - name: Swap parameter files 
