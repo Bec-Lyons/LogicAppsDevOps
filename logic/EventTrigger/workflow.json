@@ -2,95 +2,30 @@
     "definition": {
         "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
         "actions": {
-            "Condition": {
-                "type": "If",
-                "expression": {
-                    "and": [
-                        {
-                            "contains": [
-                                "@triggerBody()?['data']",
-                                "validationCode"
-                            ]
-                        }
-                    ]
-                },
-                "actions": {
-                    "Parse_JSON_2": {
-                        "type": "ParseJson",
-                        "inputs": {
-                            "content": "@triggerBody()?['data']",
-                            "schema": {
-                                "properties": {
-                                    "validationCode": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        },
-                        "runAfter": {}
-                    },
-                    "Terminate": {
-                        "type": "Terminate",
-                        "inputs": {
-                            "runStatus": "Succeeded"
-                        },
-                        "runAfter": {
-                            "Parse_JSON_2": [
-                                "Succeeded"
-                            ]
+            "Invoke_a_workflow_in_this_workflow_app": {
+                "inputs": {
+                    "body": "demo content",
+                    "host": {
+                        "workflow": {
+                            "id": "eventprocessor"
                         }
                     }
                 },
                 "runAfter": {},
-                "else": {
-                    "actions": {
-                        "Invoke_a_workflow_in_this_workflow_app": {
-                            "type": "Workflow",
-                            "inputs": {
-                                "host": {
-                                    "workflow": {
-                                        "id": "SyncItems"
-                                    }
-                                },
-                                "body": "@triggerBody()?['data']"
-                            },
-                            "runAfter": {}
-                        }
-                    }
-                }
-            }
-        },
-        "triggers": {
-            "When_a_resource_event_occurs": {
-                "type": "ApiConnectionWebhook",
-                "inputs": {
-                    "host": {
-                        "connection": {
-                            "referenceName": "azureeventgrid"
-                        }
-                    },
-                    "body": {
-                        "properties": {
-                            "topic": "@parameters('PARAMS_WORKFLOW_EVENTGRID_TOPIC')",
-                            "destination": {
-                                "endpointType": "webhook",
-                                "properties": {
-                                    "endpointUrl": "@{listCallbackUrl()}"
-                                }
-                            }
-                        }
-                    },
-                    "path": "/subscriptions/@{encodeURIComponent(appsetting('WORKFLOWS_SUBSCRIPTION_ID'))}/providers/@{encodeURIComponent('Microsoft.EventGrid.Topics')}/resource/eventSubscriptions",
-                    "queries": {
-                        "x-ms-api-version": "2017-09-15-preview"
-                    }
-                },
-                "splitOn": "@triggerBody()"
+                "type": "Workflow"
             }
         },
         "contentVersion": "1.0.0.0",
-        "outputs": {}
+        "outputs": {},
+        "triggers": {
+            "Recurrence": {
+                "recurrence": {
+                    "frequency": "Day",
+                    "interval": 1
+                },
+                "type": "Recurrence"
+            }
+        }
     },
     "kind": "Stateful"
 }
