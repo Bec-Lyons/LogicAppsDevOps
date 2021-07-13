@@ -80,9 +80,8 @@ jobs:
       id: params
       uses: azure/powershell@v1
       with:
-        inlineScript: | 
-          az extension add --yes --source "https://aka.ms/logicapp-latest-py2.py3-none-any.whl"
-          az logicapp deploy --resource-group ${{ secrets.RG_LA }} --name ${{ env.LA_NAME }} --src-path  logic/azure.parameters.json --type static --target-path parameters.json
+        inlineScript: |
+          az functionapp deploy --resource-group ${{ secrets.RG_LA }} --name ${{ env.LA_NAME }} --src-path  logic/azure.parameters.json --type static --target-path parameters.json
         azPSVersion: latest
 
   logic_app_deploy_prod: 
@@ -129,7 +128,6 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          az extension add --yes --source "https://aka.ms/logicapp-latest-py2.py3-none-any.whl"
-          az logicapp deploy --resource-group ${{ secrets.RG_LA }} --name ${{ env.LA_NAME_prod }} --src-path  logic/azure.parameters.json --type static --target-path parameters.json
+          az functionapp deploy --resource-group ${{ secrets.RG_LA }} --name ${{ env.LA_NAME_prod }} --src-path  logic/azure.parameters.json --type static --target-path parameters.json
         azPSVersion: latest
 
