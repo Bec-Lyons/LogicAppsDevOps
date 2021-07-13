@@ -29,7 +29,7 @@
                     },
                     "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('sacb34ucffd7en6'))}/files",
                     "queries": {
-                        "folderPath": "/blobs",
+                        "folderPath": "/blobs/newchange",
                         "name": "@{utcNow()}",
                         "queryParametersSingleEncoded": true
                     }
