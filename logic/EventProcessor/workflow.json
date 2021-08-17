@@ -46,7 +46,15 @@
             "manual": {
                 "type": "Request",
                 "kind": "Http",
-                "inputs": {}
+                "inputs": {
+                    "schema": {
+                        "name": "name",
+                        "number": "number",
+                        "item": "coffee",
+                        "quantity": 2,
+                        "address": "1 coffee Lane"
+                    }
+                }
             }
         },
         "contentVersion": "1.0.0.0",

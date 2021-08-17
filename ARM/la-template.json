@@ -148,8 +148,8 @@
                 "value": ""
               },
               {
-                "name": "serviceBus_connectionString", 
-                "value":"Endpoint=sb://dev-dihsbmgq6f3psyytoe.servicebus.windows.net/;SharedAccessKeyName=authrules;SharedAccessKey=YBw6g5tAOfjpKcnFff0aWpd7zuX2Qm1QnoMMeE0deuE=;EntityPath=accessoriesqueue"
+                "name": "serviceBus_12_connectionString", 
+                "value":"Endpoint=sb://contosoqueues.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=tX7Jwc9EdjwkdLTzMxNKu1uC1rwcZYfZOZBtKEbL7is="
               }              
             ]
           },

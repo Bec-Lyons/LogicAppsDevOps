@@ -20,6 +20,15 @@
         "id": "/serviceProviders/serviceBus"
       },
       "displayName": "servicebus"
+    },
+    "serviceBus-2": {
+      "parameterValues": {
+        "connectionString": "@appsetting('serviceBus_12_connectionString')"
+      },
+      "serviceProvider": {
+        "id": "/serviceProviders/serviceBus"
+      },
+      "displayName": "servicebusconnection"
     }
   }
 }

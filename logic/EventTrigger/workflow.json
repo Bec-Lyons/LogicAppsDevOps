@@ -16,12 +16,20 @@
             }
         },
         "triggers": {
-            "Recurrence": {
-                "type": "Recurrence",
-                "recurrence": {
-                    "frequency": "Minute",
-                    "interval": 10
-                }
+            "When_messages_are_available_in_a_queue": {
+                "type": "ServiceProvider",
+                "inputs": {
+                    "parameters": {
+                        "queueName": "neworders",
+                        "isSessionsEnabled": false
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "serviceBus-2",
+                        "operationId": "receiveQueueMessages",
+                        "serviceProviderId": "/serviceProviders/serviceBus"
+                    }
+                },
+                "splitOn": "@triggerOutputs()?['body']"
             }
         },
         "contentVersion": "1.0.0.0",
