@@ -2,6 +2,7 @@
 
 This repository contains a sample Logic App (preview) project, with Azure deployment and GitHub Actions examples. For a sample on how to create DevOps pipeline for Logic Apps with Azure DevOps please see [here](https://github.com/Azure/logicapps/tree/master/templates/devops-sample)
 
+
 - [Logic Apps (Preview)](#logic-apps-preview)
   - [Prerequisites](#prerequisites)
   - [Local](#local)
