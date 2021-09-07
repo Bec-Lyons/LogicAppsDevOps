@@ -9,6 +9,7 @@ on:
     paths:
       - "ARM/**"
       - ".github/workflows/IaC_deploy.yml"
+      
 
 jobs:
   DeployDev:
